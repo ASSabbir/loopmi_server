@@ -46,6 +46,7 @@ async function run() {
     const itemsCollections = database.collection("items");
     const ordersCollections = database.collection("orders");
     const completedOrdersCollection = database.collection("completedOrders");
+    const reviewsCollection = database.collection("reviews");
 
 
 
@@ -154,6 +155,16 @@ async function run() {
     app.post('/orders', async (req, res) => {
       const data = req.body
       const result = await ordersCollections.insertMany(data)
+      res.send(result)
+    })
+
+    app.post('/reviews', async(req,res)=>{
+      const product=req.body
+      const result =await reviewsCollection.insertOne(product)
+      res.send(result)
+    })
+    app.get('/reviews',async(req,res)=>{
+      const result=await reviewsCollection.find().toArray()
       res.send(result)
     })
 
